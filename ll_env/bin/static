@@ -1,0 +1,11 @@
+#!/Users/admin/Desktop/百灵鸟/python/pythonbasis/PythonWeb/learning_logs/ll_env/bin/python3.7
+
+# -*- coding: utf-8 -*-
+import re
+import sys
+
+from static import command
+
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
+    sys.exit(command())
