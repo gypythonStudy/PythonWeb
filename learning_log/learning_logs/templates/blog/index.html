@@ -194,6 +194,51 @@
         </ul>
       </div>
     </div>
+      {% block content %}
+    <ul>
+        {%  for model in homeModle %}
+            <div class="blogs" data-scroll-reveal="enter bottom over 1s" >
+                <h3 class="blogtitle"><a href="/" target="_blank">{{ model.title }}</a></h3>
+                <span class="blogpic"><a href="/" title=""><img src="../../static/images/toppic01.jpg" alt=""></a></span>
+                <p class="blogtext">{{ model.title }}</p>
+                <div class="bloginfo">
+                 <ul>
+                     <li class="author"><a href="/">杨青</a></li>
+                     <li class="lmname"><a href="/">学无止境</a></li>
+                     <li class="timer">2018-5-13</li>
+                     <li class="view"><span>34567</span>已阅读</li>
+                     <li class="like">9999</li>
+                 </ul>
+                </div>
+          </div>
+        {% empty %}
+            <li> No topics have been added yet. </li>
+        {%  endfor %}
+
+    </ul>
+    {% endblock content %}
+{#{% block content %}#}
+{#   {%  for model in homeModle %}#}
+{#    <div class="blogs" data-scroll-reveal="enter bottom over 1s" >#}
+{#      <h3 class="blogtitle"><a href="/" target="_blank">{{ model.title }}}</a></h3>#}
+{#      <span class="blogpic"><a href="/" title=""><img src="../../static/images/toppic01.jpg" alt=""></a></span>#}
+{#      <p class="blogtext">{{ model.title }} </p>#}
+{#      <div class="bloginfo">#}
+{#        <ul>#}
+{#          <li class="author"><a href="/">杨青</a></li>#}
+{#          <li class="lmname"><a href="/">学无止境</a></li>#}
+{#          <li class="timer">2018-5-13</li>#}
+{#          <li class="view"><span>34567</span>已阅读</li>#}
+{#          <li class="like">9999</li>#}
+{#        </ul>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#   {% empty %}#}
+{##}
+{#   {%  endfor %}#}
+{##}
+{#{% endblock content %}#}
     <div class="blogs" data-scroll-reveal="enter bottom over 1s" >
       <h3 class="blogtitle"><a href="/" target="_blank">别让这些闹心的套路，毁了你的网页设计!</a></h3>
       <span class="blogpic"><a href="/" title=""><img src="../../static/images/toppic01.jpg" alt=""></a></span>

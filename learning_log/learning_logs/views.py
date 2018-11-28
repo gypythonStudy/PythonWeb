@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from  .models import Topic
+from  .models import Topic,Ghomeentry
 
 # Create your views here.
 
 def index(request):
-    return  render(request,'blog/index.html')
+    homeModel = Ghomeentry.objects.order_by('date_public')
+    context = {'homeModle': homeModel}
+    return  render(request,'blog/index.html',context)
 
 def topics(request):
     topics = Topic.objects.order_by('date_added')
