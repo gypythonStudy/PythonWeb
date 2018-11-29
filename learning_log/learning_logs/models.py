@@ -84,6 +84,7 @@ class Blog(models.Model):
     """
     title = models.CharField(verbose_name='标题', max_length=100)
     content = models.TextField(verbose_name='正文', default='')
+    subContent = models.TextField(verbose_name='副文本')
     create_time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
     modify_time = models.DateTimeField(verbose_name='修改时间', auto_now=True)
     click_nums = models.IntegerField(verbose_name='点击量', default=0)

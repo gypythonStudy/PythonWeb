@@ -5,6 +5,8 @@ from learning_logs.views import IndexView, BlogDetailView
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(),name='index'),
+    # url(r'^$', views.index, name='index'),
+
     url(r'^topics/$', views.topics, name='topics'),
     url(r'indexMe', views.indexMe, name='indexMe'),
     url(r'info', views.info, name='info'),
@@ -14,6 +16,8 @@ urlpatterns = [
     url(r'list', views.list, name='list'),
     url(r'share', views.share, name='share'),
     url(r'time', views.time, name='time'),
+    url(r'blog/(?P<blog_id>\d+)$', BlogDetailView.as_view(), name='blog_id'),
+    # url(r'^blog/(?P<blog_id>\d+)$', BlogDetailView.as_view(), name='blog_id'),
 ]
 
 # 配置全局404页面

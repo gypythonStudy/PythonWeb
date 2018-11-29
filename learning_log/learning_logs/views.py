@@ -31,6 +31,9 @@ def share(request):
     return  render(request,'blog/share.html')
 def time(request):
     return  render(request,'blog/time.html')
+# def blog(request):
+#     return  render(request,'blog/blogDetail.html')
+
 
 #配置404 500错误页面
 def page_not_found(request):
@@ -54,7 +57,13 @@ class IndexView(View):
         count_nums.save()
 
         for blog in all_blog:
-            blog.content = markdown.markdown(blog.content)
+            blog.subContent = blog.content
+            blog.content = markdown.markdown(blog.content,extensions=[
+                                     'markdown.extensions.extra',
+                                     'markdown.extensions.codehilite',
+                                     'markdown.extensions.toc',
+                                  ])
+            # blog.subContent = blog.content
 
         # 分页
         try:
@@ -76,4 +85,53 @@ class IndexView(View):
 class BlogDetailView(View):
 
     def get(self,request,blog_id):
-        blog = get_object_or_404(Blog,pk=blog_id)
+        blog = get_object_or_404(Blog, pk=blog_id)
+        # 博客、标签、分类数目统计
+        count_nums = Counts.objects.get(id=1)
+        blog_nums = count_nums.blog_nums
+        cate_nums = count_nums.category_nums
+        tag_nums = count_nums.tag_nums
+        # 博客点击数+1, 评论数统计
+        blog.click_nums += 1
+        blog.save()
+        # 获取评论内容
+        all_comment = Comment.objects.filter(blog_id=blog_id)
+        comment_nums = all_comment.count()
+        # 将博客内容用markdown显示出来
+        blog.content = markdown.markdown(blog.content,extensions=[
+                                     'markdown.extensions.extra',
+                                     'markdown.extensions.codehilite',
+                                     'markdown.extensions.toc',
+                                  ])
+        # 实现博客上一篇与下一篇功能
+        has_prev = False
+        has_next = False
+        id_prev = id_next = int(blog_id)
+        blog_id_max = Blog.objects.all().order_by('-id').first()
+        id_max = blog_id_max.id
+        while not has_prev and id_prev >= 1:
+            blog_prev = Blog.objects.filter(id=id_prev - 1).first()
+            if not blog_prev:
+                id_prev -= 1
+            else:
+                has_prev = True
+        while not has_next and id_next <= id_max:
+            blog_next = Blog.objects.filter(id=id_next + 1).first()
+            if not blog_next:
+                id_next += 1
+            else:
+                has_next = True;
+
+        return render(request, 'blog/blogDetail.html', {
+            'blog': blog,
+            'blog_prev': blog_prev,
+            'blog_next': blog_next,
+            'has_prev': has_prev,
+            'has_next': has_next,
+            'all_comment': all_comment,
+            'comment_nums': comment_nums,
+            'blog_nums': blog_nums,
+            'cate_nums': cate_nums,
+            'tag_nums': tag_nums,
+
+        })
