@@ -1,0 +1,9 @@
+{% extends 'blog/info.html' %}
+{% block title %}
+{% endblock %}
+
+    <div class="post-body" itemprop="articleBody">
+
+                {{ blog.content|safe }}
+
+    </div>
