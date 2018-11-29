@@ -2,9 +2,8 @@ from django.shortcuts import render,get_object_or_404
 from  .models import Topic,Ghomeentry
 from django.views import View
 from pure_pagination import PageNotAnInteger, Paginator
-
 import markdown
-
+from learning_logs.models import Category,Blog,Comment,Counts
 # Create your views here.
 
 def index(request):
@@ -35,11 +34,11 @@ def time(request):
 
 #配置404 500错误页面
 def page_not_found(request):
-    return render(request, '404.html')
+    return render(request, 'blog/404.html')
 
 
 def page_errors(request):
-    return render(request, '500.html')
+    return render(request, 'blog/500.html')
 
 class IndexView(View):
     """
