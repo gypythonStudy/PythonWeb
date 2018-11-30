@@ -1,3 +1,4 @@
+from django.db.models import QuerySet
 from django.shortcuts import render,get_object_or_404
 from  .models import Topic,Ghomeentry
 from django.views import View
@@ -8,6 +9,7 @@ from learning_logs.models import Category,Blog,Comment,Counts
 
 def index(request):
     homeModel = Ghomeentry.objects.order_by('date_public')
+    bannerModel = Ghomeentry.objects.order_by('')
     context = {'homeModle': homeModel}
     return  render(request,'blog/index.html',context)
 
@@ -16,7 +18,9 @@ def topics(request):
     context = {'topics':topics}
     return  render(request,'blog/topics.html',context)
 def indexMe(request):
-    return  render(request,'blog/index.html')
+    homeModel = Ghomeentry.objects.order_by('date_public')
+    context = {'homeModle': homeModel}
+    return render(request, 'blog/index.html', context)
 def info(request):
     return  render(request,'blog/info.html')
 def about(request):
@@ -49,7 +53,10 @@ class IndexView(View):
     """
     def get(self, request):
         all_blog = Blog.objects.all().order_by('-id')
-        # 博客、标签、分类数目统计
+        # click_nums
+        banner_blog = Blog.objects.order_by('-click_nums')[0:3]
+        rigth_blog = Blog.objects.filter(click_nums=0)[0:2]
+        # 轮播
         count_nums = Counts.objects.get(id=1)
         blog_nums = count_nums.blog_nums
         cate_nums = count_nums.category_nums
@@ -65,20 +72,26 @@ class IndexView(View):
                                   ])
             # blog.subContent = blog.content
 
+
         # 分页
         try:
             page = request.GET.get('page', 1)
         except PageNotAnInteger:
             page = 1
 
-        p = Paginator(all_blog, 5, request=request)
+        p = Paginator(all_blog, 2, request=request)
         all_blog = p.page(page)
-        return render(request, 'blog/index.html', {
+        # b = Paginator(banner_blog, 2, request=request)
+        # banner_blog = b.page(page)
+        content = {
             'all_blog': all_blog,
+            'banner_blog': banner_blog,
+            'rigth_blog': rigth_blog,
             'blog_nums': blog_nums,
             'cate_nums': cate_nums,
             'tag_nums': tag_nums,
-        })
+        }
+        return render(request, 'blog/index.html', content)
 
 
 

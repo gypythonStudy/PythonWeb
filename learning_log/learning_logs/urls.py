@@ -8,7 +8,7 @@ urlpatterns = [
     # url(r'^$', views.index, name='index'),
 
     url(r'^topics/$', views.topics, name='topics'),
-    url(r'indexMe', views.indexMe, name='indexMe'),
+    url(r'indexMe', IndexView.as_view(), name='indexMe'),
     url(r'info', views.info, name='info'),
     url(r'about', views.about, name='about'),
     url(r'gbook', views.gbook, name='gbook'),
